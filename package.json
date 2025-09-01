@@ -1,0 +1,56 @@
+{
+  "name": "cntrl-platform",
+  "version": "3.0.0",
+  "description": "Comprehensive Solana trading platform with advanced trading tools, volume generation, token creation, wallet management, and MEV protection services",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "npm run build:shared && npm run build:backend && npm run build:frontend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build:shared": "cd shared && npm run build",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install && cd ../shared && npm install",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:frontend": "cd frontend && npm run test",
+    "test:backend": "cd backend && npm run test",
+    "test:e2e": "cd frontend && npm run test:e2e",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "type-check": "npm run type-check:frontend && npm run type-check:backend",
+    "type-check:frontend": "cd frontend && npm run type-check",
+    "type-check:backend": "cd backend && npm run type-check",
+    "docker:build": "docker-compose -f docker/docker-compose.yml build",
+    "docker:up": "docker-compose -f docker/docker-compose.yml up -d",
+    "docker:down": "docker-compose -f docker/docker-compose.yml down",
+    "docker:logs": "docker-compose -f docker/docker-compose.yml logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "keywords": [
+    "solana",
+    "trading",
+    "defi",
+    "volume-bot",
+    "mev-protection",
+    "jupiter",
+    "jito",
+    "wallet-management"
+  ],
+  "author": "CNTRL Platform Team",
+  "license": "UNLICENSED"
+}
