@@ -1,7 +1,7 @@
 {
   "name": "cntrl-platform",
   "version": "3.0.0",
-  "description": "Comprehensive Solana trading platform with advanced trading tools, volume generation, token creation, wallet management, and MEV protection services",
+  "description": "Comprehensive trading platform with advanced trading tools, volume generation, token creation, wallet management, and MEV protection services",
   "private": true,
   "workspaces": [
     "frontend",
@@ -42,13 +42,10 @@
     "npm": ">=10.0.0"
   },
   "keywords": [
-    "solana",
     "trading",
     "defi",
     "volume-bot",
     "mev-protection",
-    "jupiter",
-    "jito",
     "wallet-management"
   ],
   "author": "CNTRL Platform Team",

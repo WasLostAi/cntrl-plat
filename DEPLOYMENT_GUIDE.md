@@ -38,13 +38,6 @@ DATABASE_URL="postgresql://username:password@localhost:5432/cntrl_platform"
 JWT_SECRET="your-super-secret-jwt-key"
 JWT_REFRESH_SECRET="your-super-secret-refresh-key"
 
-# Solana
-SOLANA_RPC_URL="https://api.mainnet-beta.solana.com"
-SOLANA_COMMITMENT="confirmed"
-
-# Jupiter API
-JUPITER_API_URL="https://quote-api.jup.ag/v6"
-
 # Server
 PORT=8000
 NODE_ENV="development"
@@ -93,10 +86,10 @@ npm install --legacy-peer-deps
 npm run dev
 ```
 
-### Option 3: Update Solana Dependencies
+### Option 3: Update Dependencies
 ```bash
 cd frontend
-npm update @solana/wallet-adapter-react @solana/wallet-adapter-react-ui
+npm update
 npm install --legacy-peer-deps
 ```
 
@@ -118,7 +111,6 @@ docker build -t cntrl-frontend -f docker/Dockerfile.frontend .
 DATABASE_URL="postgresql://user:pass@prod-db:5432/cntrl_platform"
 JWT_SECRET="production-super-secret-jwt-key"
 JWT_REFRESH_SECRET="production-super-secret-refresh-key"
-SOLANA_RPC_URL="https://your-rpc-provider.com"
 NODE_ENV="production"
 PORT=8000
 
