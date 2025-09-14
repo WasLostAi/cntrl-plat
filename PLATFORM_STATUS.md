@@ -126,12 +126,12 @@ Current user created for testing:
    - Implement proper database migrations
    - Add data relationships and constraints
 
-2. **Solana Integration**:
-   - Connect to Solana RPC endpoints  
+2. **Blockchain Integration**:
+   - Connect to blockchain RPC endpoints  
    - Implement wallet balance fetching
    - Add transaction broadcasting
 
-3. **Jupiter Integration**:
+3. **DEX Integration**:
    - Volume bot trading logic
    - Price fetching and market data
    - Trade execution and monitoring

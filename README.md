@@ -1,20 +1,19 @@
 # CNTRL 3.0 Platform
 
-A comprehensive Solana trading platform that provides advanced trading tools, volume generation, token creation, wallet management, and MEV protection services.
+A comprehensive trading platform that provides advanced trading tools, volume generation, token creation, wallet management, and MEV protection services.
 
 ## 🚀 Features
 
-- **Jupiter Volume Bot**: Automated volume generation for Solana tokens
-- **Jupiter Studio Integration**: Seamless token creation and deployment
-- **CNTRL Protection System**: Advanced MEV protection and sandwich attack prevention
+- **Volume Bot**: Automated volume generation for tokens
+- **Token Creation Tools**: Seamless token creation and deployment
+- **Protection System**: Advanced MEV protection and sandwich attack prevention
 - **Wallet Management**: Comprehensive wallet creation and management with advanced security
-- **War Room Dashboard**: Real-time command center for monitoring all platform activities
+- **Command Dashboard**: Real-time command center for monitoring all platform activities
 
 ## 🏗️ Architecture
 
 - **Frontend**: Next.js 14 with App Router, TypeScript, Tailwind CSS
 - **Backend**: Node.js with Express, PostgreSQL, Redis
-- **Blockchain**: Solana integration with Jupiter and Jito APIs
 - **Infrastructure**: Docker containers with Kubernetes orchestration
 
 ## 📁 Project Structure
