@@ -1,0 +1,114 @@
+name: Block Unwanted Dependencies
+
+on:
+  pull_request:
+    paths:
+      - '**/package*.json'
+      - '**/yarn.lock'
+
+jobs:
+  check-dependencies:
+    runs-on: ubuntu-latest
+    name: Check for unwanted dependencies
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Check for blocked dependencies
+        run: |
+          echo "🔍 Scanning for unwanted dependencies..."
+          
+          # Define the unwanted dependencies with exact versions
+          BLOCKED_DEPS=(
+            "chalk@5.6.1"
+            "debug@4.4.2"
+            "ansi-styles@6.2.2"
+            "supports-color@10.2.1"
+            "strip-ansi@7.1.1"
+            "ansi-regex@6.2.1"
+            "wrap-ansi@9.0.1"
+            "color-convert@3.1.1"
+            "color-name@2.0.1"
+            "is-arrayish@0.3.3"
+            "slice-ansi@7.1.1"
+            "color@5.0.1"
+            "color-string@2.1.1"
+            "simple-swizzle@0.2.3"
+            "supports-hyperlinks@4.1.1"
+            "has-ansi@6.0.1"
+            "chalk-template@1.1.1"
+            "backslash@0.2.1"
+          )
+          
+          # Find all package*.json and yarn.lock files
+          FILES=$(find . -name "package*.json" -o -name "yarn.lock" | grep -v node_modules || true)
+          
+          if [ -z "$FILES" ]; then
+            echo "ℹ️ No package files found to check."
+            exit 0
+          fi
+          
+          echo "📁 Found files to check:"
+          echo "$FILES"
+          echo ""
+          
+          FOUND_VIOLATIONS=false
+          
+          # Check each file for blocked dependencies
+          for file in $FILES; do
+            echo "🔍 Checking $file..."
+            
+            for dep_version in "${BLOCKED_DEPS[@]}"; do
+              # Split dependency name and version
+              dep_name=$(echo "$dep_version" | cut -d'@' -f1)
+              version=$(echo "$dep_version" | cut -d'@' -f2)
+              
+              # Search for different formats:
+              # 1. package.json format: "dep-name": "version"
+              # 2. package-lock.json format: "dep-name@version"
+              # 3. yarn.lock format: dep-name@version:
+              
+              found_matches=false
+              
+              # Check for package.json format: "dep-name": "version"
+              if grep -q "\"$dep_name\":[[:space:]]*\"$version\"" "$file" 2>/dev/null; then
+                echo "❌ BLOCKED DEPENDENCY FOUND: $dep_version in $file (package.json format)"
+                echo "   Line(s):"
+                grep -n "\"$dep_name\":[[:space:]]*\"$version\"" "$file" | sed 's/^/   /'
+                found_matches=true
+                FOUND_VIOLATIONS=true
+              fi
+              
+              # Check for package-lock.json/yarn.lock format: "dep-name@version"
+              if grep -q "\"$dep_version\"" "$file" 2>/dev/null; then
+                echo "❌ BLOCKED DEPENDENCY FOUND: $dep_version in $file (lock file format)"
+                echo "   Line(s):"
+                grep -n "\"$dep_version\"" "$file" | sed 's/^/   /'
+                found_matches=true
+                FOUND_VIOLATIONS=true
+              fi
+              
+              # Check for yarn.lock format: dep-name@version:
+              if grep -q "^$dep_version:" "$file" 2>/dev/null; then
+                echo "❌ BLOCKED DEPENDENCY FOUND: $dep_version in $file (yarn.lock format)"
+                echo "   Line(s):"
+                grep -n "^$dep_version:" "$file" | sed 's/^/   /'
+                found_matches=true
+                FOUND_VIOLATIONS=true
+              fi
+            done
+          done
+          
+          if [ "$FOUND_VIOLATIONS" = true ]; then
+            echo ""
+            echo "🚫 WORKFLOW FAILED: Unwanted dependencies detected!"
+            echo ""
+            echo "The following dependencies are not allowed in this repository:"
+            printf '%s\n' "${BLOCKED_DEPS[@]}" | sed 's/^/  - /'
+            echo ""
+            echo "Please remove or update these dependencies before merging."
+            exit 1
+          else
+            echo "✅ No blocked dependencies found. All clear!"
+          fi
